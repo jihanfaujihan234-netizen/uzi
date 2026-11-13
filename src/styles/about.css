@@ -122,6 +122,12 @@
   margin-top: 28px;
 }
 
+.about-gallery-action {
+  display: flex;
+  width: fit-content;
+  margin-top: 12px;
+}
+
 .about-mobile-actions {
   display: none;
 }

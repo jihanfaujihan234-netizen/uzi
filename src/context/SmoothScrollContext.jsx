@@ -22,6 +22,7 @@ export function SmoothScrollProvider({ children }) {
   const lenisRef = useRef(null)
   const lastScrollRef = useRef(0)
   const location = useLocation()
+  const sectionTarget = location.state?.scrollTo
   const prevPathRef = useRef(location.pathname)
 
   useEffect(() => {
@@ -62,6 +63,7 @@ export function SmoothScrollProvider({ children }) {
   const scrollTo = useCallback((target, options = {}) => {
     const lenis = lenisRef.current
     if (lenis) {
+      if (options.immediate) lenis.resize()
       lenis.scrollTo(target, options)
       return
     }
@@ -97,6 +99,8 @@ export function SmoothScrollProvider({ children }) {
 
     prevPathRef.current = location.pathname
 
+    if (sectionTarget) return undefined
+
     let target = 0
     try {
       target = Number(sessionStorage.getItem(`scroll:${location.pathname}`)) || 0
@@ -110,7 +114,7 @@ export function SmoothScrollProvider({ children }) {
     }, 240)
 
     return () => window.clearTimeout(timeout)
-  }, [location.pathname, scrollTo])
+  }, [location.pathname, scrollTo, sectionTarget])
 
   return (
     <SmoothScrollContext.Provider value={{ scrollTo, stop, start }}>

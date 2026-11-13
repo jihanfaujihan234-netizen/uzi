@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
-import { Code, FileText, School } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { Code, FileText, Images, School } from 'lucide-react'
 import TopoCanvas from './TopoCanvas'
 import FolderCard from './FolderCard'
 import { education, experience, folders, profile } from '../data/site'
@@ -151,6 +152,13 @@ export default function About() {
               <FileText size={16} aria-hidden="true" />
               View CV
             </a>
+            <Link
+              className="btn-primary about-desktop-action about-gallery-action"
+              to="/gallery"
+            >
+              <Images size={16} aria-hidden="true" />
+              MY GALERY
+            </Link>
           </div>
 
           <div className="about-copy-col" data-reveal>
@@ -175,6 +183,10 @@ export default function About() {
               <FileText size={16} aria-hidden="true" />
               View CV
             </a>
+            <Link className="btn-primary" to="/gallery">
+              <Images size={16} aria-hidden="true" />
+              MY GALERY
+            </Link>
             <a
               className="btn-primary"
               href="#Portofolio"

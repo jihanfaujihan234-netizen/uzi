@@ -26,6 +26,34 @@ export const galleryPhotos = Array.from({ length: 9 }, (_, i) => ({
   alt: `Galeri kegiatan ${i + 1}`,
 }))
 
+const myGalleryImages = import.meta.glob(
+  '../assets/my-gallery/*/*.{jpeg,jpg,png,webp,avif,gif}',
+  { eager: true, query: '?url', import: 'default' },
+)
+
+const myGalleryImageList = Object.entries(myGalleryImages)
+  .map(([filePath, src]) => {
+    const segments = filePath.split('/')
+    const folder = segments[segments.length - 2]
+    const fileName = segments[segments.length - 1]
+    const alt = fileName
+      .replace(/\.[^.]+$/, '')
+      .replace(/[-_]+/g, ' ')
+      .trim()
+
+    return { id: filePath, folder, src, alt }
+  })
+  .sort((a, b) => a.id.localeCompare(b.id))
+
+export const myGalleryFolders = [
+  { id: 'waktu-kecil-besar', label: 'Waktu Kecil-Besar' },
+  { id: 'kenangan-smp', label: 'Kenangan SMP' },
+  { id: 'kenangan-smk', label: 'Kenangan SMK' },
+].map(folder => ({
+  ...folder,
+  images: myGalleryImageList.filter(image => image.folder === folder.id),
+}))
+
 export const education = [
   {
     id: 'smk',

@@ -1,0 +1,214 @@
+.gallery-page {
+  position: relative;
+  min-height: 100svh;
+  padding: 46px 0 80px;
+  background: #030712;
+  color: #f0f0ff;
+  overflow: hidden;
+}
+
+.gallery-page-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(110px);
+  opacity: 0.26;
+  pointer-events: none;
+}
+
+.gallery-page-blob--1 {
+  top: -18%;
+  left: -10%;
+  width: 48vw;
+  aspect-ratio: 1 / 1;
+  background: #1d4ed8;
+}
+
+.gallery-page-blob--2 {
+  right: -12%;
+  bottom: -30%;
+  width: 42vw;
+  aspect-ratio: 1 / 1;
+  background: #7c3aed;
+  opacity: 0.16;
+}
+
+.gallery-page-inner {
+  position: relative;
+  z-index: 1;
+  width: min(1160px, 100%);
+  margin: 0 auto;
+  padding: 0 clamp(20px, 5vw, 48px);
+}
+
+.gallery-page-topbar {
+  display: flex;
+  margin-bottom: clamp(40px, 7vh, 72px);
+}
+
+.gallery-page-head {
+  max-width: 720px;
+  margin-bottom: clamp(36px, 6vw, 60px);
+}
+
+.gallery-page-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border: 1px solid rgba(96, 165, 250, 0.32);
+  border-radius: 999px;
+  background: rgba(37, 99, 235, 0.14);
+  color: #93c5fd;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.gallery-page-title {
+  margin-top: 18px;
+  font-size: clamp(42px, 7vw, 76px);
+  letter-spacing: -0.04em;
+  line-height: 0.98;
+  background: linear-gradient(92deg, #2c67ed 0%, #4f8dfb 55%, #77b0ff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.gallery-page-sub {
+  max-width: 520px;
+  margin-top: 18px;
+  color: #a8a8c2;
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.my-gallery-folders {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(24px, 4vw, 52px);
+}
+
+.my-gallery-folders .folder-card {
+  flex: 1 1 240px;
+  min-width: 240px;
+  max-width: 340px;
+}
+
+.gallery-folder-view {
+  padding-top: 4px;
+}
+
+.gallery-folder-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 28px;
+}
+
+.gallery-folder-head h2 {
+  font-size: clamp(28px, 4vw, 42px);
+}
+
+.gallery-folder-head h2 span {
+  color: #8f8fa8;
+  font-size: 0.55em;
+  letter-spacing: 0;
+}
+
+.gallery-folder-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.055);
+  color: #e8e8f4;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.2;
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.gallery-folder-back:hover {
+  border-color: rgba(96, 165, 250, 0.55);
+  background: rgba(37, 99, 235, 0.2);
+  transform: translateX(-2px);
+}
+
+.gallery-photo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.gallery-photo {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  background: #0b1020;
+  overflow: hidden;
+}
+
+.gallery-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.gallery-photo:hover img {
+  transform: scale(1.06);
+}
+
+.gallery-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: clamp(48px, 9vw, 90px) 24px;
+  border: 1px dashed rgba(255, 255, 255, 0.16);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.03);
+  text-align: center;
+}
+
+.gallery-empty-icon {
+  display: grid;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(37, 99, 235, 0.16);
+  color: #93c5fd;
+  place-items: center;
+}
+
+.gallery-empty p {
+  color: #e8e8f4;
+  font-weight: 700;
+}
+
+.gallery-empty small {
+  color: #8f8fa8;
+  font-size: 13px;
+}
+
+@media (max-width: 640px) {
+  .gallery-page {
+    padding-top: 32px;
+  }
+
+  .gallery-photo-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 12px;
+  }
+}
