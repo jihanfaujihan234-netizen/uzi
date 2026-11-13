@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1200" viewBox="0 0 1600 1200">
+  <defs>
+    <radialGradient id="vig" cx="0.5" cy="0.5" r="0.72">
+      <stop offset="0.42" stop-color="#02040a" stop-opacity="0"/>
+      <stop offset="0.76" stop-color="#02040a" stop-opacity="0.34"/>
+      <stop offset="1" stop-color="#02040a" stop-opacity="0.82"/>
+    </radialGradient>
+    <linearGradient id="neon" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#38bdf8"/>
+      <stop offset="0.5" stop-color="#94a3ff"/>
+      <stop offset="1" stop-color="#fb7185"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="1200" fill="url(#vig)"/>
+  <g stroke="url(#neon)" stroke-width="2" fill="none" opacity="0.45">
+    <path d="M56 100 V56 H100"/>
+    <path d="M1544 100 V56 H1500"/>
+    <path d="M56 1100 V1144 H100"/>
+    <path d="M1544 1100 V1144 H1500"/>
+  </g>
+  <g fill="#02040a" opacity="0.85">
+    <rect x="0" y="0" width="34" height="1200"/>
+    <rect x="1566" y="0" width="34" height="1200"/>
+  </g>
+  <g stroke="url(#neon)" stroke-width="1.2" opacity="0.35">
+    <line x1="34" y1="0" x2="34" y2="1200"/>
+    <line x1="1566" y1="0" x2="1566" y2="1200"/>
+  </g>
+  <g stroke="#7dd3fc" stroke-width="1" opacity="0.25">
+    <line x1="34" y1="180" x2="60" y2="180"/>
+    <line x1="34" y1="260" x2="48" y2="260"/>
+    <line x1="34" y1="940" x2="60" y2="940"/>
+    <line x1="1566" y1="200" x2="1540" y2="200"/>
+    <line x1="1566" y1="900" x2="1552" y2="900"/>
+  </g>
+</svg>
