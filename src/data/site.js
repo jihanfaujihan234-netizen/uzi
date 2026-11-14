@@ -20,11 +20,48 @@ export const certificates = [
 
 export const awards = []
 
-export const galleryPhotos = Array.from({ length: 9 }, (_, i) => ({
-  id: `gallery-${i + 1}`,
-  image: `/media/gallery/gallery-${i + 1}.jpeg`,
-  alt: `Galeri kegiatan ${i + 1}`,
-}))
+export const galleryPhotos = [
+  {
+    id: 'gallery-1',
+    image: '/media/gallery/gallery-1.jpeg',
+    alt: 'Foto bersama teman SMK membawa bendera',
+  },
+  {
+    id: 'gallery-2',
+    image: '/media/gallery/gallery-2.jpeg',
+    alt: 'Foto kelas X TKJ 1',
+  },
+  {
+    id: 'gallery-3',
+    image: '/media/gallery/gallery-3.jpeg',
+    alt: 'Kebersamaan di dalam kelas',
+  },
+  {
+    id: 'gallery-4',
+    image: '/media/gallery/gallery-4.jpeg',
+    alt: 'Futsal bersama teman',
+  },
+  {
+    id: 'gallery-5',
+    image: '/media/gallery/gallery-5.jpeg',
+    alt: 'Foto bersama di kelas',
+  },
+  {
+    id: 'gallery-6',
+    image: '/media/gallery/gallery-6.jpeg',
+    alt: 'Foto malam bersama teman',
+  },
+  {
+    id: 'gallery-7',
+    image: '/media/gallery/gallery-7.jpeg',
+    alt: 'Kemah bersama teman',
+  },
+  {
+    id: 'gallery-8',
+    image: '/media/gallery/gallery-8.jpeg',
+    alt: 'Belajar kelompok di kelas',
+  },
+]
 
 const myGalleryImages = import.meta.glob(
   '../assets/my-gallery/*/*.{jpeg,jpg,png,webp,avif,gif}',
