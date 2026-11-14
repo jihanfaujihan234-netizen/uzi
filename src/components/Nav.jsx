@@ -37,7 +37,7 @@ export default function Nav() {
 
       let next = 'Home'
       if (probe >= contactTop) next = 'Contact'
-      else if (probe >= portfolioTop) next = 'Portfolio'
+      else if (probe >= portfolioTop) next = 'Portofolio'
       else if (probe >= aboutTop) next = 'About'
 
       setActive(current => (current === next ? current : next))
@@ -67,21 +67,45 @@ export default function Nav() {
     const pill = navRef.current
     if (!pill) return undefined
 
+    let frame = 0
+    let cancelled = false
+
     const measure = () => {
       const link = pill.querySelector(`[data-nav-id="${active}"]`)
       if (!link) return
       const pillRect = pill.getBoundingClientRect()
       const linkRect = link.getBoundingClientRect()
-      setMascotLeft(linkRect.left - pillRect.left + linkRect.width / 2)
+      const center =
+        linkRect.left - pillRect.left - pill.clientLeft + linkRect.width / 2
+      setMascotLeft(center)
+    }
+
+    const scheduleMeasure = () => {
+      cancelAnimationFrame(frame)
+      frame = requestAnimationFrame(measure)
     }
 
     measure()
-    const timeout = window.setTimeout(measure, 150)
-    window.addEventListener('resize', measure)
+
+    const link = pill.querySelector(`[data-nav-id="${active}"]`)
+    const observer = new ResizeObserver(scheduleMeasure)
+    observer.observe(pill)
+    if (link) observer.observe(link)
+
+    window.addEventListener('resize', scheduleMeasure)
+    window.addEventListener('orientationchange', scheduleMeasure)
+    document.fonts?.ready
+      .then(() => {
+        if (!cancelled) scheduleMeasure()
+      })
+      .catch(() => {})
 
     return () => {
-      window.clearTimeout(timeout)
-      window.removeEventListener('resize', measure)
+      cancelled = true
+      cancelAnimationFrame(frame)
+      observer.disconnect()
+      window.removeEventListener('resize', scheduleMeasure)
+      window.removeEventListener('orientationchange', scheduleMeasure)
     }
   }, [active])
 

@@ -4,7 +4,7 @@
   z-index: 80;
   display: flex;
   justify-content: center;
-  padding: 44px 20px 0;
+  padding: 60px 20px 0;
   pointer-events: none;
   transition: opacity 0.3s ease;
 }
@@ -107,15 +107,31 @@ body.has-modal .site-nav {
   color: var(--col-blue);
 }
 
+.site-nav.is-light .nav-mascot-inner {
+  box-shadow:
+    0 10px 22px rgba(15, 23, 42, 0.22),
+    0 0 0 1px rgba(15, 23, 42, 0.12),
+    inset 0 -2px 4px rgba(15, 23, 42, 0.08);
+}
+
+.site-nav.is-light .mascot-tail {
+  box-shadow:
+    3px 3px 5px rgba(15, 23, 42, 0.16),
+    0 0 0 1px rgba(15, 23, 42, 0.1);
+}
+
 .nav-mascot {
   position: absolute;
-  top: -23px;
+  top: -52px;
   left: 0;
   z-index: 3;
+  display: grid;
   width: 48px;
   height: 48px;
   margin-left: -24px;
   pointer-events: none;
+  align-items: start;
+  justify-items: center;
   transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
@@ -210,7 +226,7 @@ body.has-modal .site-nav {
 
 @media (max-width: 760px) {
   .site-nav {
-    padding: 28px 16px 0;
+    padding: 52px 16px 0;
   }
 
   .nav-wrap {
@@ -232,7 +248,7 @@ body.has-modal .site-nav {
   }
 
   .nav-mascot {
-    top: -21px;
+    top: -47px;
     width: 44px;
     height: 44px;
     margin-left: -22px;
