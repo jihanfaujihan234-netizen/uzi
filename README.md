@@ -26,8 +26,8 @@ Komentar di halaman Contact disimpan di Supabase agar terlihat oleh semua pengun
 create table if not exists public.comments (
   id uuid primary key default gen_random_uuid(),
   name text not null check (char_length(btrim(name)) between 1 and 60),
-  text text not null check (char_length(btrim(text)) between 1 and 1000),
-  photo text,
+  message text not null check (char_length(btrim(message)) between 1 and 1000),
+  avatar_url text,
   created_at timestamptz not null default now()
 );
 
@@ -55,8 +55,10 @@ end $$;
 
 ```env
 VITE_SUPABASE_URL=https://xxxx.supabase.co
-VITE_SUPABASE_ANON_KEY=xxxx
+VITE_SUPABASE_ANON_KEY=sb_publishable_xxxx
 ```
+
+Setelah mengubah `.env.local`, hentikan lalu jalankan ulang `npm run dev` agar Vite memuat variabel baru.
 
 4. Untuk situs yang sudah di-deploy, tambahkan dua variabel yang sama di dashboard Vercel (Settings > Environment Variables), lalu redeploy.
 

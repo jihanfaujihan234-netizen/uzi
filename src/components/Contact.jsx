@@ -28,6 +28,8 @@ const COMMENT_FETCH_MS = 30 * 1000
 const COMMENT_NAME_LIMIT = 60
 const COMMENT_TEXT_LIMIT = 1000
 const AVATAR_MAX_SIZE = 160
+const SUPABASE_MISSING_MESSAGE =
+  'Supabase belum terkonfigurasi. Isi VITE_SUPABASE_URL dan VITE_SUPABASE_ANON_KEY di .env.local, lalu restart server (npm run dev).'
 
 function getCommentTimestamp(comment) {
   const direct = Number(comment?.created_at ?? comment?.createdAt)
@@ -67,10 +69,47 @@ function mapSupabaseComment(row) {
   return {
     id: row.id,
     name: row.name,
-    text: row.text,
-    photo: row.photo || '',
+    message: row.message ?? '',
+    avatar_url: row.avatar_url || '',
     created_at: new Date(row.created_at).getTime(),
   }
+}
+
+function describeSupabaseError(error, action) {
+  const status = Number(error?.status)
+  const code = String(error?.code ?? '')
+  const message = String(error?.message ?? '')
+
+  if (status === 401 || /invalid api key/i.test(message)) {
+    return 'Koneksi Supabase ditolak (401). VITE_SUPABASE_ANON_KEY tidak valid: gunakan publishable key berawalan sb_publishable_ dari project yang sama.'
+  }
+
+  if (
+    code === 'PGRST205' ||
+    /could not find the table|relation .*comments.* does not exist/i.test(
+      message,
+    )
+  ) {
+    return 'Tabel public.comments tidak ditemukan di Supabase.'
+  }
+
+  if (code === '42501' || /row-level security/i.test(message)) {
+    return `Akses ${action} ditolak oleh Row Level Security. Periksa policy anon pada tabel public.comments.`
+  }
+
+  if (code === '42703' || /column .* does not exist/i.test(message)) {
+    return `Kolom tabel comments tidak cocok. ${message}`
+  }
+
+  if (code === 'PGRST204' || /schema cache/i.test(message)) {
+    return `Kolom tabel comments belum dikenali Supabase. ${message}`
+  }
+
+  if (/failed to fetch|networkerror|load failed/i.test(message)) {
+    return 'Tidak bisa menghubungi Supabase. Periksa koneksi internet lalu coba lagi.'
+  }
+
+  return message ? `Gagal ${action}: ${message}` : `Gagal ${action}. Coba lagi.`
 }
 
 function resizeProfilePhoto(file) {
@@ -142,7 +181,7 @@ export default function Contact() {
     try {
       const { data, error } = await supabase
         .from('comments')
-        .select('id, name, text, photo, created_at')
+        .select('id, name, message, avatar_url, created_at')
         .order('created_at', { ascending: false })
         .limit(200)
 
@@ -150,11 +189,9 @@ export default function Contact() {
 
       setUserComments((data || []).map(mapSupabaseComment))
       setCommentsError('')
-    } catch {
+    } catch (error) {
       if (!options.silent) {
-        setCommentsError(
-          'Komentar belum bisa dimuat. Periksa koneksi lalu muat ulang halaman.',
-        )
+        setCommentsError(describeSupabaseError(error, 'memuat komentar'))
       }
     } finally {
       setCommentsLoading(false)
@@ -365,9 +402,7 @@ export default function Contact() {
     if (commentSubmitting) return
 
     if (!supabase) {
-      setCommentError(
-        'Layanan komentar belum dikonfigurasi. Hubungi pemilik website.',
-      )
+      setCommentError(SUPABASE_MISSING_MESSAGE)
       return
     }
 
@@ -396,8 +431,8 @@ export default function Contact() {
     try {
       const { data, error } = await supabase
         .from('comments')
-        .insert({ name, text, photo: photo || null })
-        .select('id, name, text, photo, created_at')
+        .insert({ name, message: text, avatar_url: photo || null })
+        .select('id, name, message, avatar_url, created_at')
         .single()
 
       if (error) throw error
@@ -414,10 +449,8 @@ export default function Contact() {
       setPhotoName('')
       if (fileInputRef.current) fileInputRef.current.value = ''
       setCommentStatus('Komentar berhasil ditambahkan.')
-    } catch {
-      setCommentError(
-        'Komentar gagal dikirim. Periksa koneksi internet lalu coba lagi.',
-      )
+    } catch (error) {
+      setCommentError(describeSupabaseError(error, 'mengirim komentar'))
     } finally {
       setCommentSubmitting(false)
     }
@@ -624,9 +657,7 @@ export default function Contact() {
 
               <div className="comment-list" data-lenis-prevent>
                 {!supabase ? (
-                  <p className="comment-empty">
-                    Layanan komentar belum dikonfigurasi.
-                  </p>
+                  <p className="comment-empty">{SUPABASE_MISSING_MESSAGE}</p>
                 ) : commentsLoading ? (
                   <p className="comment-empty">Memuat komentar...</p>
                 ) : commentsError ? (
@@ -639,15 +670,15 @@ export default function Contact() {
                   comments.map(comment => (
                     <article className="comment-row" key={comment.id}>
                       <span className="comment-avatar">
-                        {comment.photo ? (
-                          <img src={comment.photo} alt="" />
+                        {comment.avatar_url ? (
+                          <img src={comment.avatar_url} alt="" />
                         ) : (
                           <UserRound size={18} aria-hidden="true" />
                         )}
                       </span>
                       <div className="comment-body">
                         <strong>{comment.name}</strong>
-                        <p>{comment.text}</p>
+                        <p>{comment.message}</p>
                       </div>
                       <span className="comment-time">
                         {formatCommentTime(getCommentTimestamp(comment), now)}
