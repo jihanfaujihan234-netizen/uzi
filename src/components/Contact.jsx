@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import {
   ExternalLink,
   ImagePlus,
@@ -10,18 +10,12 @@ import {
   UserRound,
 } from 'lucide-react'
 import {
-  profile,
   seedComments,
   socials,
 } from '../data/site'
 import { useReveal } from '../hooks/useReveal'
+import { supabase } from '../lib/supabase'
 
-const STORAGE_KEY = 'uzi-portfolio-comments-v1'
-const LEGACY_STORAGE_KEYS = [
-  'eka-portfolio-comments-v1',
-  'eka-portfolio-comments-v2',
-  'uzi-portfolio-comments-v2',
-]
 const BASE_COMMENT_COUNT = 0
 const WEB3FORMS_ENDPOINT = 'https://api.web3forms.com/submit'
 const WEB3FORMS_KEY = String(
@@ -30,6 +24,10 @@ const WEB3FORMS_KEY = String(
 const WEB3FORMS_TIMEOUT_MS = 20000
 const COMMENT_TIME_ZONE = 'Asia/Jakarta'
 const COMMENT_TIME_REFRESH_MS = 30 * 1000
+const COMMENT_FETCH_MS = 30 * 1000
+const COMMENT_NAME_LIMIT = 60
+const COMMENT_TEXT_LIMIT = 1000
+const AVATAR_MAX_SIZE = 160
 
 function getCommentTimestamp(comment) {
   const direct = Number(comment?.created_at ?? comment?.createdAt)
@@ -65,30 +63,52 @@ function formatCommentTime(timestamp, now) {
   }).format(timestamp)
 }
 
-function readStoredComments() {
-  try {
-    const raw = window.localStorage.getItem(STORAGE_KEY)
-    if (!raw) return []
-    const parsed = JSON.parse(raw)
-    if (!Array.isArray(parsed)) return []
-
-    return parsed
-      .filter(comment => comment && typeof comment === 'object')
-      .map(comment => ({
-        ...comment,
-        created_at: getCommentTimestamp(comment) ?? Date.now(),
-      }))
-  } catch {
-    return []
+function mapSupabaseComment(row) {
+  return {
+    id: row.id,
+    name: row.name,
+    text: row.text,
+    photo: row.photo || '',
+    created_at: new Date(row.created_at).getTime(),
   }
 }
 
-function writeStoredComments(comments) {
-  try {
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(comments))
-  } catch {
-    /* storage may be full or unavailable */
-  }
+function resizeProfilePhoto(file) {
+  return new Promise((resolve, reject) => {
+    const objectUrl = URL.createObjectURL(file)
+    const image = new Image()
+
+    const cleanup = () => URL.revokeObjectURL(objectUrl)
+
+    image.onload = () => {
+      try {
+        const scale = Math.min(
+          1,
+          AVATAR_MAX_SIZE / Math.max(image.width, image.height),
+        )
+        const width = Math.max(1, Math.round(image.width * scale))
+        const height = Math.max(1, Math.round(image.height * scale))
+        const canvas = document.createElement('canvas')
+        canvas.width = width
+        canvas.height = height
+        const context = canvas.getContext('2d')
+        if (!context) throw new Error('Canvas tidak didukung.')
+        context.drawImage(image, 0, 0, width, height)
+        resolve(canvas.toDataURL('image/jpeg', 0.85))
+      } catch (error) {
+        reject(error)
+      } finally {
+        cleanup()
+      }
+    }
+
+    image.onerror = () => {
+      cleanup()
+      reject(new Error('Gagal membaca foto profil.'))
+    }
+
+    image.src = objectUrl
+  })
 }
 
 export default function Contact() {
@@ -109,21 +129,84 @@ export default function Contact() {
   const [commentError, setCommentError] = useState('')
   const [commentStatus, setCommentStatus] = useState('')
   const [userComments, setUserComments] = useState([])
+  const [commentsLoading, setCommentsLoading] = useState(Boolean(supabase))
+  const [commentsError, setCommentsError] = useState('')
+  const [commentSubmitting, setCommentSubmitting] = useState(false)
   const [now, setNow] = useState(() => Date.now())
 
   useReveal(sectionRef)
 
-  useEffect(() => {
+  const fetchComments = useCallback(async (options = {}) => {
+    if (!supabase) return
+
     try {
-      LEGACY_STORAGE_KEYS.forEach(key => window.localStorage.removeItem(key))
+      const { data, error } = await supabase
+        .from('comments')
+        .select('id, name, text, photo, created_at')
+        .order('created_at', { ascending: false })
+        .limit(200)
+
+      if (error) throw error
+
+      setUserComments((data || []).map(mapSupabaseComment))
+      setCommentsError('')
     } catch {
-      /* storage may be unavailable */
+      if (!options.silent) {
+        setCommentsError(
+          'Komentar belum bisa dimuat. Periksa koneksi lalu muat ulang halaman.',
+        )
+      }
+    } finally {
+      setCommentsLoading(false)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!supabase) {
+      return undefined
     }
 
-    const storedComments = readStoredComments()
-    setUserComments(storedComments)
-    if (storedComments.length > 0) writeStoredComments(storedComments)
-  }, [])
+    fetchComments()
+
+    const channel = supabase
+      .channel('public:comments')
+      .on(
+        'postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'comments' },
+        payload => {
+          if (!payload?.new) return
+          const incoming = mapSupabaseComment(payload.new)
+          setUserComments(current =>
+            current.some(comment => comment.id === incoming.id)
+              ? current
+              : [incoming, ...current],
+          )
+        },
+      )
+      .subscribe()
+
+    return () => {
+      supabase.removeChannel(channel)
+    }
+  }, [fetchComments])
+
+  useEffect(() => {
+    if (!supabase) return undefined
+
+    const refresh = () => {
+      if (!document.hidden) fetchComments({ silent: true })
+    }
+    const interval = window.setInterval(refresh, COMMENT_FETCH_MS)
+
+    window.addEventListener('focus', refresh)
+    document.addEventListener('visibilitychange', refresh)
+
+    return () => {
+      window.clearInterval(interval)
+      window.removeEventListener('focus', refresh)
+      document.removeEventListener('visibilitychange', refresh)
+    }
+  }, [fetchComments])
 
   useEffect(() => {
     const interval = window.setInterval(
@@ -243,7 +326,7 @@ export default function Contact() {
     }
   }
 
-  const handleFile = event => {
+  const handleFile = async event => {
     const file = event.target.files?.[0]
     setCommentError('')
 
@@ -255,47 +338,89 @@ export default function Contact() {
 
     if (!file.type.startsWith('image/')) {
       setCommentError('Foto profil harus berupa gambar.')
+      event.target.value = ''
       return
     }
 
     if (file.size > 5 * 1024 * 1024) {
       setCommentError('Ukuran foto profil maksimal 5MB.')
+      event.target.value = ''
       return
     }
 
-    const reader = new FileReader()
-    reader.onload = () => {
-      setPhoto(String(reader.result || ''))
+    try {
+      const resized = await resizeProfilePhoto(file)
+      setPhoto(resized)
       setPhotoName(file.name)
+    } catch {
+      setCommentError('Gagal memproses foto profil. Coba gambar lain.')
+      setPhoto('')
+      setPhotoName('')
+      event.target.value = ''
     }
-    reader.readAsDataURL(file)
   }
 
-  const handleCommentSubmit = event => {
+  const handleCommentSubmit = async event => {
     event.preventDefault()
-    if (!commentForm.name.trim() || !commentForm.text.trim()) {
+    if (commentSubmitting) return
+
+    if (!supabase) {
+      setCommentError(
+        'Layanan komentar belum dikonfigurasi. Hubungi pemilik website.',
+      )
+      return
+    }
+
+    const name = commentForm.name.trim()
+    const text = commentForm.text.trim()
+
+    if (!name || !text) {
       setCommentError('Isi nama dan komentar terlebih dahulu.')
       return
     }
 
-    const createdAt = Date.now()
-    const nextComment = {
-      id: `comment-${createdAt}`,
-      name: commentForm.name.trim(),
-      text: commentForm.text.trim(),
-      created_at: createdAt,
-      photo: photo && photo.length < 250000 ? photo : '',
+    if (name.length > COMMENT_NAME_LIMIT) {
+      setCommentError(`Nama maksimal ${COMMENT_NAME_LIMIT} karakter.`)
+      return
     }
 
-    const next = [nextComment, ...userComments]
-    setUserComments(next)
-    writeStoredComments(next)
-    setCommentForm({ name: '', text: '' })
-    setPhoto('')
-    setPhotoName('')
-    if (fileInputRef.current) fileInputRef.current.value = ''
+    if (text.length > COMMENT_TEXT_LIMIT) {
+      setCommentError(`Komentar maksimal ${COMMENT_TEXT_LIMIT} karakter.`)
+      return
+    }
+
+    setCommentSubmitting(true)
     setCommentError('')
-    setCommentStatus('Komentar berhasil ditambahkan.')
+    setCommentStatus('')
+
+    try {
+      const { data, error } = await supabase
+        .from('comments')
+        .insert({ name, text, photo: photo || null })
+        .select('id, name, text, photo, created_at')
+        .single()
+
+      if (error) throw error
+
+      const incoming = mapSupabaseComment(data)
+      setUserComments(current =>
+        current.some(comment => comment.id === incoming.id)
+          ? current
+          : [incoming, ...current],
+      )
+
+      setCommentForm({ name: '', text: '' })
+      setPhoto('')
+      setPhotoName('')
+      if (fileInputRef.current) fileInputRef.current.value = ''
+      setCommentStatus('Komentar berhasil ditambahkan.')
+    } catch {
+      setCommentError(
+        'Komentar gagal dikirim. Periksa koneksi internet lalu coba lagi.',
+      )
+    } finally {
+      setCommentSubmitting(false)
+    }
   }
 
   return (
@@ -415,6 +540,7 @@ export default function Contact() {
                     id="comment-name"
                     type="text"
                     value={commentForm.name}
+                    maxLength={COMMENT_NAME_LIMIT}
                     onChange={event =>
                       setCommentForm(current => ({
                         ...current,
@@ -432,6 +558,7 @@ export default function Contact() {
                     id="comment-text"
                     rows={4}
                     value={commentForm.text}
+                    maxLength={COMMENT_TEXT_LIMIT}
                     onChange={event =>
                       setCommentForm(current => ({
                         ...current,
@@ -463,9 +590,13 @@ export default function Contact() {
                   <p className="file-note">Max file size: 5MB</p>
                 </div>
 
-                <button type="submit" className="btn-primary contact-submit">
+                <button
+                  type="submit"
+                  className="btn-primary contact-submit"
+                  disabled={commentSubmitting || !supabase}
+                >
                   <Send size={16} aria-hidden="true" />
-                  Kirim Komentar
+                  {commentSubmitting ? 'Mengirim...' : 'Kirim Komentar'}
                 </button>
 
                 {commentError ? (
@@ -492,7 +623,15 @@ export default function Contact() {
               </div>
 
               <div className="comment-list" data-lenis-prevent>
-                {comments.length === 0 ? (
+                {!supabase ? (
+                  <p className="comment-empty">
+                    Layanan komentar belum dikonfigurasi.
+                  </p>
+                ) : commentsLoading ? (
+                  <p className="comment-empty">Memuat komentar...</p>
+                ) : commentsError ? (
+                  <p className="comment-empty">{commentsError}</p>
+                ) : comments.length === 0 ? (
                   <p className="comment-empty">
                     Belum ada komentar. Jadilah yang pertama!
                   </p>
