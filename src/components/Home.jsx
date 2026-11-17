@@ -7,9 +7,7 @@ gsap.registerPlugin(ScrollTrigger)
 export default function Home() {
   const sectionRef = useRef(null)
   const forestRef = useRef(null)
-  const skyRef = useRef(null)
-  const mountainRef = useRef(null)
-  const personRef = useRef(null)
+  const photoRef = useRef(null)
   const titleRef = useRef(null)
 
   useLayoutEffect(() => {
@@ -42,18 +40,8 @@ export default function Home() {
           duration: 0.22,
         })
         .to(
-          skyRef.current,
-          { yPercent: -15, ease: 'none', duration: 0.78 },
-          0.22,
-        )
-        .to(
-          mountainRef.current,
-          { yPercent: -32.5, scale: 1.06, ease: 'none', duration: 0.78 },
-          0.22,
-        )
-        .to(
-          personRef.current,
-          { yPercent: -50, ease: 'none', duration: 0.78 },
+          photoRef.current,
+          { yPercent: -12, ease: 'none', duration: 0.78 },
           0.22,
         )
         .to(titleRef.current, { opacity: 1, ease: 'none', duration: 0.11 }, 0.22)
@@ -68,19 +56,11 @@ export default function Home() {
     <section id="Home" className="home" ref={sectionRef}>
       <div className="home-visuals">
         <div className="home-layers">
-          <div className="home-layer home-layer--sky" ref={skyRef}>
+          <div className="home-layer home-layer--photo" ref={photoRef}>
             <img
-              src="/media/img10.svg"
-              alt="Langit malam dan bulan di atas pegunungan"
-              loading="eager"
-              decoding="async"
-            />
-          </div>
-
-          <div className="home-layer home-layer--mountain" ref={mountainRef}>
-            <img
-              src="/media/img20.svg"
-              alt="Puncak gunung bersalju"
+              className="home-photo"
+              src="/media/hero-tree.png"
+              alt="Jihan Fauzi bersandar di pohon"
               loading="eager"
               decoding="async"
             />
@@ -89,19 +69,18 @@ export default function Home() {
           <div className="home-title" ref={titleRef}>
             <div className="home-title-inner">
               <h1>
-                <span className="block">Welcome to my</span>
-                <span className="block">Portofolio</span>
+                <span className="block home-title-kicker">Welcome to my</span>
+                <span className="home-title-word-wrap">
+                  <span
+                    className="block home-title-word"
+                    data-text="Portofolio"
+                  >
+                    Portofolio
+                  </span>
+                  <span className="home-title-glints" aria-hidden="true" />
+                </span>
               </h1>
             </div>
-          </div>
-
-          <div className="home-layer home-layer--person" ref={personRef}>
-            <img
-              src="/media/img30.svg"
-              alt="Jihan Fauzi berdiri di tepi gunung"
-              loading="eager"
-              decoding="async"
-            />
           </div>
 
           <div className="home-forest" ref={forestRef}>
