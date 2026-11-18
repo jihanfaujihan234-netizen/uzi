@@ -5,7 +5,7 @@ export const profile = {
   cvUrl:
     'https://drive.google.com/file/d/1_Isso2Qk9xqHtEG5ac5uCiDjaOsk49Yl/view?usp=drive_link',
   email: 'ipunkchester2@gmail.com',
-  bio: 'Sebagai mahasiswa Fakultas Ilmu Komputer Universitas Brawijaya, Aku berfokus pada pengembangan teknologi yang tidak hanya fungsional, tetapi juga menghadirkan pengalaman digital yang menarik dan berdampak.',
+  bio: 'Saya seorang junior developer yang bangun antarmuka interaktif dengan React, animasi halus, dan dunia 3D di browser.\n\nBelajar cepat, rapi dalam detail, dan selalu penasaran — kini menempuh pendidikan di SMK AL-HADIID 1 CILEUNGSI.',
 }
 
 export const projects = []

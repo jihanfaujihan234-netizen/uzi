@@ -59,7 +59,7 @@ export default function Home() {
           <div className="home-layer home-layer--photo" ref={photoRef}>
             <img
               className="home-photo"
-              src="/media/hero-tree.png"
+              src="/media/hero-tree-transparent.png"
               alt="Jihan Fauzi bersandar di pohon"
               loading="eager"
               decoding="async"

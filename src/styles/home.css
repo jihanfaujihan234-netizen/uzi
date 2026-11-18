@@ -44,8 +44,11 @@
 .home-layer--photo .home-photo {
   position: relative;
   z-index: 1;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
   object-position: 50% 50%;
+  background: transparent;
   -webkit-mask-image: linear-gradient(
     90deg,
     transparent 0%,
@@ -172,37 +175,23 @@
   position: relative;
   display: block;
   white-space: nowrap;
-  font-family: 'Segoe UI', 'Helvetica Neue', 'Inter', Arial, sans-serif;
+  font-family: 'Manrope', 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
   font-size: clamp(54px, 18.5vw, 420px);
-  font-weight: 900;
+  font-weight: 800;
   line-height: 0.82;
-  letter-spacing: -0.055em;
+  letter-spacing: -0.045em;
   color: transparent;
-  background-image:
-    linear-gradient(
-      112deg,
-      rgba(255, 255, 255, 0) 20%,
-      rgba(255, 255, 255, 0.5) 42%,
-      rgba(255, 255, 255, 0) 60%
-    ),
-    linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.92) 0%,
-      rgba(214, 223, 236, 0.76) 13%,
-      rgba(160, 173, 192, 0.58) 27%,
-      rgba(240, 246, 255, 0.84) 43%,
-      rgba(255, 255, 255, 0.94) 56%,
-      rgba(166, 179, 197, 0.58) 68%,
-      rgba(235, 243, 255, 0.82) 84%,
-      rgba(255, 255, 255, 0.92) 100%
-    );
+  background-image: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    #f8fafc 38%,
+    #eef1f5 62%,
+    #d9e0e8 100%
+  );
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  -webkit-text-stroke: 1px rgba(240, 246, 255, 0.55);
-  filter: drop-shadow(0 0 22px rgba(200, 222, 255, 0.4))
-    drop-shadow(0 0 52px rgba(86, 140, 255, 0.22))
-    drop-shadow(0 14px 36px rgba(0, 0, 0, 0.55));
+  filter: drop-shadow(0 12px 28px rgba(0, 0, 0, 0.55));
 }
 
 .home-title-word::after {
@@ -213,11 +202,11 @@
   -webkit-text-stroke: 0;
   background-image: linear-gradient(
     106deg,
-    rgba(255, 255, 255, 0) 41%,
-    rgba(255, 255, 255, 0.4) 47%,
-    rgba(255, 255, 255, 0.95) 51%,
-    rgba(255, 255, 255, 0.35) 55%,
-    rgba(255, 255, 255, 0) 63%
+    rgba(255, 255, 255, 0) 44%,
+    rgba(255, 255, 255, 0.18) 48%,
+    rgba(255, 255, 255, 0.55) 51%,
+    rgba(255, 255, 255, 0.18) 54%,
+    rgba(255, 255, 255, 0) 60%
   );
   background-size: 240% 100%;
   background-repeat: no-repeat;
@@ -341,8 +330,8 @@
   }
 
   .home-layer--photo .home-photo {
-    object-fit: cover;
-    object-position: 50% 30%;
+    object-fit: contain;
+    object-position: 50% 50%;
     -webkit-mask-image: none;
     mask-image: none;
   }
@@ -377,8 +366,7 @@
 
   .home-title-word {
     font-size: clamp(42px, 17vw, 120px);
-    letter-spacing: -0.05em;
-    -webkit-text-stroke-width: 0.6px;
+    letter-spacing: -0.045em;
   }
 
   .home-title-glints {
