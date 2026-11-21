@@ -2,8 +2,7 @@ export const profile = {
   name: 'Jihan Fauzi',
   firstName: 'Jihan',
   lastName: 'Fauzi',
-  cvUrl:
-    'https://drive.google.com/file/d/1_Isso2Qk9xqHtEG5ac5uCiDjaOsk49Yl/view?usp=drive_link',
+  cvUrl: '/media/CV_Jihan_Fauzi.pdf',
   email: 'ipunkchester2@gmail.com',
   bio: 'Saya seorang junior developer yang bangun antarmuka interaktif dengan React, animasi halus, dan dunia 3D di browser.\n\nBelajar cepat, rapi dalam detail, dan selalu penasaran — kini menempuh pendidikan di SMK AL-HADIID 1 CILEUNGSI.',
 }
