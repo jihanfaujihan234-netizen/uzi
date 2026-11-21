@@ -19,7 +19,7 @@ export function PortfolioProvider({ children }) {
       requestAnimationFrame(() => {
         const gallery = document.getElementById('Portofolio-Gallery')
         if (!gallery) return
-        const top = gallery.getBoundingClientRect().top + window.scrollY - 72
+        const top = gallery.getBoundingClientRect().top + window.scrollY
         scrollTo(Math.max(0, top), { duration: 1.15 })
       })
     },

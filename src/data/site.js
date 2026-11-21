@@ -11,9 +11,16 @@ export const projects = []
 
 export const certificates = [
   {
+    id: 'certificate-gemini',
+    image: '/media/certs/gemini-certified-student.png',
+    alt: 'Sertifikat Gemini Certified Student K12 - Jihan Fauzi',
+    ratio: 801 / 621,
+  },
+  {
     id: 'certificate-2',
     image: '/media/certs/cert-2.jpeg',
     alt: 'Sertifikat',
+    ratio: 1536 / 1024,
   },
 ]
 

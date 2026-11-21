@@ -23,9 +23,12 @@ const clamp = (value, min, max) => Math.min(max, Math.max(min, value))
 
 export default function PortfolioGallery() {
   const sectionRef = useRef(null)
+  const carouselRef = useRef(null)
   const trackRef = useRef(null)
   const distanceRef = useRef(0)
   const [distance, setDistance] = useState(0)
+  const [centered, setCentered] = useState(false)
+  const [mediaMax, setMediaMax] = useState(0)
   const { activeTab, goToTab } = usePortfolio()
   const { scrollTo } = useSmoothScroll()
 
@@ -35,14 +38,22 @@ export default function PortfolioGallery() {
     const next = Math.max(0, track.scrollWidth - window.innerWidth + 32)
     distanceRef.current = next
     setDistance(current => (current === next ? current : next))
+    setCentered(next === 0)
+
+    const carousel = carouselRef.current
+    if (!carousel) return
+    const nextMax = Math.max(30, Math.floor(carousel.clientHeight - 40))
+    setMediaMax(current => (current === nextMax ? current : nextMax))
   }, [])
 
   useLayoutEffect(() => {
     const track = trackRef.current
+    const carousel = carouselRef.current
     measure()
 
     const observer = new ResizeObserver(measure)
     if (track) observer.observe(track)
+    if (carousel) observer.observe(carousel)
     window.addEventListener('resize', measure)
     const timeout = window.setTimeout(measure, 400)
 
@@ -114,7 +125,10 @@ export default function PortfolioGallery() {
       id="Portofolio-Gallery"
       className="pf-gallery"
       ref={sectionRef}
-      style={{ height: `calc(100svh + ${distance + 260}px)` }}
+      style={{
+        height: `calc(100svh + ${distance + 260}px)`,
+        '--cert-media-max': mediaMax ? `${mediaMax}px` : '430px',
+      }}
     >
       <div className="pf-sticky">
         <div className="pf-header">
@@ -140,7 +154,10 @@ export default function PortfolioGallery() {
           </div>
         </div>
 
-        <div className="pf-carousel">
+        <div
+          className={`pf-carousel${centered ? ' is-centered' : ''}`}
+          ref={carouselRef}
+        >
           <button
             type="button"
             className="pf-arrow pf-arrow--left"
@@ -172,7 +189,11 @@ export default function PortfolioGallery() {
                   </div>
                 </article>
               ) : (
-                <article className="pf-card pf-card--image" key={item.id}>
+                <article
+                  className="pf-card pf-card--image"
+                  key={item.id}
+                  style={{ '--card-ratio': item.ratio }}
+                >
                   <div className="pf-card-media">
                     <img
                       src={item.image}
