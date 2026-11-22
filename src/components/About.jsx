@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Code, FileText, Images, School } from 'lucide-react'
+import { Briefcase, Code, FileText, Images, School } from 'lucide-react'
 import TopoCanvas from './TopoCanvas'
 import FolderCard from './FolderCard'
 import { education, experience, folders, profile } from '../data/site'
@@ -8,7 +8,9 @@ import { useReveal } from '../hooks/useReveal'
 import { usePortfolio } from '../context/PortfolioContext'
 import { useSmoothScroll } from '../context/SmoothScrollContext'
 
-function TimelineItem({ item, index }) {
+function TimelineItem({ item, index, kind = 'education' }) {
+  const FallbackIcon = kind === 'experience' ? Briefcase : School
+
   return (
     <li className="timeline-item" style={{ '--index': index }}>
       <span className="timeline-node">{index + 1}</span>
@@ -18,7 +20,7 @@ function TimelineItem({ item, index }) {
             {item.logo ? (
               <img src={item.logo} alt="" loading="lazy" decoding="async" />
             ) : (
-              <School
+              <FallbackIcon
                 className="timeline-logo-icon"
                 size={20}
                 aria-hidden="true"
@@ -31,11 +33,22 @@ function TimelineItem({ item, index }) {
           <span className="timeline-years">{item.years}</span>
         </div>
         <h5 className="timeline-role">{item.role}</h5>
-        <p className="timeline-meta">
-          <span>{item.place}</span>
-          <span className="timeline-dot" aria-hidden="true" />
-          <span className="timeline-tag">{item.tag}</span>
-        </p>
+        {(item.place || item.tag) && (
+          <p className="timeline-meta">
+            {item.place && <span>{item.place}</span>}
+            {item.place && item.tag && (
+              <span className="timeline-dot" aria-hidden="true" />
+            )}
+            {item.tag && <span className="timeline-tag">{item.tag}</span>}
+          </p>
+        )}
+        {item.points?.length > 0 && (
+          <ul className="timeline-points">
+            {item.points.map(point => (
+              <li key={point}>{point}</li>
+            ))}
+          </ul>
+        )}
       </div>
     </li>
   )
@@ -213,7 +226,12 @@ export default function About() {
             <div className="experience-scroll" data-lenis-prevent>
               <ol className="timeline-list">
                 {experience.map((item, index) => (
-                  <TimelineItem item={item} index={index} key={item.id} />
+                  <TimelineItem
+                    item={item}
+                    index={index}
+                    kind="experience"
+                    key={item.id}
+                  />
                 ))}
               </ol>
             </div>

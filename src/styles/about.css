@@ -339,8 +339,9 @@
 
 .timeline-top {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 12px;
+  gap: 8px 12px;
   margin-bottom: 8px;
 }
 
@@ -369,15 +370,13 @@
 }
 
 .timeline-org {
-  flex: 1;
+  flex: 1 1 180px;
   min-width: 0;
-  overflow: hidden;
   color: #e4e4e7;
   font-size: 16px;
   font-weight: 600;
   line-height: 24px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
 }
 
 .timeline-years {
@@ -431,8 +430,35 @@
   line-height: 16px;
 }
 
+.timeline-points {
+  display: grid;
+  gap: 6px;
+  margin: 10px 0 0;
+  padding: 0;
+  color: #a1a1aa;
+  font-size: 13px;
+  line-height: 1.55;
+  list-style: none;
+}
+
+.timeline-points li {
+  position: relative;
+  padding-left: 16px;
+}
+
+.timeline-points li::before {
+  content: '';
+  position: absolute;
+  top: 0.62em;
+  left: 0;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+}
+
 .experience-scroll {
-  max-height: 360px;
+  max-height: none;
   padding: 6px 0 0;
   overflow-y: auto;
   overscroll-behavior: contain;
@@ -441,6 +467,13 @@
 
 .experience-scroll::-webkit-scrollbar {
   display: none;
+}
+
+@media (hover: none) {
+  .timeline-item,
+  .timeline-list:hover .timeline-item {
+    opacity: 1;
+  }
 }
 
 .about-folders {
