@@ -6,10 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/png" href="/Photo.jpg" />
   <!-- SEO Utama -->
-  <title>Eka Wahyu Maulidan | Portofolio</title>
-  <meta name="description" content="Website resmi Eka Wahyu Maulidan, Portofolio. Aku berfokus pada pengembangan teknologi yang tidak hanya fungsional, tetapi juga menghadirkan pengalaman digital yang menarik dan berdampak." />
-  <meta name="keywords" content="Eka Wahyu Maulidan, Eka Wahyu, Portofolio, Eka Wahyu, Portofolio Wahyu" />
-  <meta name="author" content="Eka Wahyu Maulidan" />
+  <title>Jihan Fauzi | Portofolio</title>
+  <meta name="description" content="Website resmi Jihan Fauzi, Portofolio. Aku berfokus pada pengembangan teknologi yang tidak hanya fungsional, tetapi juga menghadirkan pengalaman digital yang menarik dan berdampak." />
+  <meta name="keywords" content="Jihan Fauzi, Uzi Wahyu, Portofolio, Uzi Wahyu, Portofolio Wahyu" />
+  <meta name="author" content="Jihan Fauzi" />
 
   <!-- Google Search Console -->
 
@@ -22,35 +22,35 @@
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://ekawahyu-portofolio-eka-wahyu-s-projects.vercel.app/" />
-  <meta property="og:title" content="Eka Wahyu Maulidan | Portofolio" />
-  <meta property="og:description" content="Website resmi dan portofolio Eka Wahyu Maulidan, Portofolio." />
-  <meta property="og:image" content="https://ekawahyu-portofolio-eka-wahyu-s-projects.vercel.app/Meta.png" />
+  <meta property="og:url" content="https://uziwahyu-portofolio-uzi-wahyu-s-projects.vercel.app/" />
+  <meta property="og:title" content="Jihan Fauzi | Portofolio" />
+  <meta property="og:description" content="Website resmi dan portofolio Jihan Fauzi, Portofolio." />
+  <meta property="og:image" content="https://uziwahyu-portofolio-uzi-wahyu-s-projects.vercel.app/Meta.png" />
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:url" content="https://ekawahyu-portofolio-eka-wahyu-s-projects.vercel.app/" />
-  <meta name="twitter:title" content="Eka Wahyu Maulidan | Portofolio" />
-  <meta name="twitter:description" content="Website resmi dan portofolio Eka Wahyu Maulidan." />
-  <meta name="twitter:image" content="https://ekawahyu-portofolio-eka-wahyu-s-projects.vercel.app/Meta.png" />
+  <meta name="twitter:url" content="https://uziwahyu-portofolio-uzi-wahyu-s-projects.vercel.app/" />
+  <meta name="twitter:title" content="Jihan Fauzi | Portofolio" />
+  <meta name="twitter:description" content="Website resmi dan portofolio Jihan Fauzi." />
+  <meta name="twitter:image" content="https://uziwahyu-portofolio-uzi-wahyu-s-projects.vercel.app/Meta.png" />
 
   <!-- Canonical -->
-  <link rel="canonical" href="https://ekawahyu-portofolio-eka-wahyu-s-projects.vercel.app/" />
+  <link rel="canonical" href="https://uziwahyu-portofolio-uzi-wahyu-s-projects.vercel.app/" />
 
   <!-- Structured Data: Person -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Person",
-    "name": "Eka Wahyu Maulidan",
-    "url": "https://ekawahyu-portofolio-eka-wahyu-s-projects.vercel.app",
-    "image": "https://ekawahyu-portofolio-eka-wahyu-s-projects.vercel.app/Photo.jpg",
+    "name": "Jihan Fauzi",
+    "url": "https://uziwahyu-portofolio-uzi-wahyu-s-projects.vercel.app",
+    "image": "https://uziwahyu-portofolio-uzi-wahyu-s-projects.vercel.app/Photo.jpg",
     "jobTitle": "Portofolio",
     "description": "Aku berfokus pada pengembangan teknologi yang tidak hanya fungsional, tetapi juga menghadirkan pengalaman digital yang menarik dan berdampak.",
     "sameAs": [
-      "https://www.linkedin.com/in/eka-wahyu-maulidan-484021315?utm_source=share_via&utm_content=profile",
-      "https://www.instagram.com/eka.wahyu.m",
-     "https://github.com/ekawahyu-project",
+      "https://www.linkedin.com/in/uzi-wahyu-maulidan-484021315?utm_source=share_via&utm_content=profile",
+      "https://www.instagram.com/uzi.wahyu.m",
+     "https://github.com/uziwahyu-project",
     ]
   }
   </script>
@@ -65,7 +65,7 @@
 <body>
   <!-- Konten teks penting untuk SEO -->
   <header style="display:none">
-    <h1>Eka Wahyu Maulidan</h1>
+    <h1>Jihan Fauzi</h1>
     <p>
       Aku berfokus pada pengembangan teknologi yang tidak hanya fungsional, tetapi juga menghadirkan pengalaman digital yang menarik dan berdampak.
     </p>

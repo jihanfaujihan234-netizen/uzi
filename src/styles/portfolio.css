@@ -166,6 +166,7 @@
 }
 
 .pf-gallery {
+  --cert-ratio: 1.4;
   position: relative;
 }
 
@@ -345,7 +346,7 @@
   flex: 0 0 auto;
   align-self: center;
   width: min(
-    calc(var(--cert-media-max, 430px) * var(--card-ratio, 1.5) + 24px),
+    calc(var(--cert-media-max, 430px) * var(--cert-ratio, 1.4) + 24px),
     520px
   );
   height: auto;
@@ -356,14 +357,15 @@
 .pf-card--image .pf-card-media {
   flex: none;
   height: auto;
+  aspect-ratio: var(--cert-ratio, 1.4);
   border-radius: 9px;
   background: #ffffff;
 }
 
 .pf-card--image .pf-card-media img {
   width: 100%;
-  height: auto;
-  max-height: var(--cert-media-max, 430px);
+  height: 100%;
+  max-height: none;
   object-fit: contain;
 }
 
@@ -581,7 +583,7 @@
   .pf-card--image {
     flex: 0 0 auto;
     width: min(
-      calc(var(--cert-media-max, 430px) * var(--card-ratio, 1.5) + 24px),
+      calc(var(--cert-media-max, 430px) * var(--cert-ratio, 1.4) + 24px),
       520px,
       82vw
     );
@@ -679,7 +681,7 @@
   .pf-card--image {
     flex: 0 0 auto;
     width: min(
-      calc(var(--cert-media-max, 430px) * var(--card-ratio, 1.5) + 20px),
+      calc(var(--cert-media-max, 430px) * var(--cert-ratio, 1.4) + 20px),
       82vw
     );
     height: auto;
@@ -746,7 +748,7 @@
   .pf-card--image {
     width: min(
       520px,
-      calc(var(--cert-media-max, 430px) * var(--card-ratio, 1.5) + 24px)
+      calc(var(--cert-media-max, 430px) * var(--cert-ratio, 1.4) + 24px)
     );
   }
 }

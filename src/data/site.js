@@ -14,13 +14,11 @@ export const certificates = [
     id: 'certificate-gemini',
     image: '/media/certs/gemini-certified-student.png',
     alt: 'Sertifikat Gemini Certified Student K12 - Jihan Fauzi',
-    ratio: 801 / 621,
   },
   {
     id: 'certificate-2',
     image: '/media/certs/cert-2.jpeg',
     alt: 'Sertifikat',
-    ratio: 1536 / 1024,
   },
 ]
 
@@ -133,16 +131,16 @@ export const experience = [
     org: 'Google Indonesia',
     years: '2026',
     role: 'Google Student Ambassador',
-    place: 'Universitas Brawijaya',
+    place: 'SMK Alhadiid 1 Cileungsi',
     tag: 'Ambassador',
     logo: '/media/experience/google.jpg',
   },
   {
     id: 'gdg',
-    org: 'Google Developer Groups (GDGs) on Campus Brawijaya University',
+    org: 'Google Developer Groups (GDGs) on Campus SMK Alhadiid 1 Cileungsi',
     years: '2025-2026',
     role: 'Member',
-    place: 'Universitas Brawijaya',
+    place: 'SMK Alhadiid 1 Cileungsi',
     tag: 'Community',
     logo: '/media/experience/gdg.png',
   },

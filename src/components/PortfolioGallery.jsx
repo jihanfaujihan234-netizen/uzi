@@ -189,11 +189,7 @@ export default function PortfolioGallery() {
                   </div>
                 </article>
               ) : (
-                <article
-                  className="pf-card pf-card--image"
-                  key={item.id}
-                  style={{ '--card-ratio': item.ratio }}
-                >
+                <article className="pf-card pf-card--image" key={item.id}>
                   <div className="pf-card-media">
                     <img
                       src={item.image}
