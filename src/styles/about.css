@@ -228,9 +228,11 @@
 
 .about-lists {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 32px;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 40px;
+  width: 100%;
   margin-top: 56px;
+  align-items: start;
 }
 
 .timeline-column {
@@ -240,9 +242,10 @@
 .timeline-heading {
   margin-bottom: 24px;
   color: #ffffff;
-  font-size: 20px;
+  font-size: clamp(22px, 2vw, 28px);
   font-weight: 700;
-  line-height: 28px;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
 }
 
 .timeline-list {
@@ -250,6 +253,41 @@
   margin: 0;
   padding: 8px;
   list-style: none;
+}
+
+.experience-scroll {
+  position: relative;
+  max-height: clamp(380px, 56vh, 540px);
+  padding-right: 12px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(100, 140, 200, 0.5) transparent;
+  -webkit-overflow-scrolling: touch;
+}
+
+.experience-scroll:focus-visible {
+  border-radius: 10px;
+  outline: 2px solid rgba(96, 165, 250, 0.55);
+  outline-offset: -2px;
+}
+
+.experience-scroll::-webkit-scrollbar {
+  width: 5px;
+}
+
+.experience-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.experience-scroll::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: rgba(100, 140, 200, 0.5);
+}
+
+.experience-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 140, 200, 0.72);
 }
 
 .timeline-item {
@@ -274,10 +312,6 @@
 
 .timeline-item:last-child {
   padding-bottom: 4px;
-}
-
-.experience-scroll .timeline-item:last-child {
-  padding-bottom: 8px;
 }
 
 .timeline-item:not(:last-child)::before {
@@ -363,6 +397,23 @@
   height: 100%;
   border-radius: 8px;
   object-fit: contain;
+}
+
+.timeline-logo.has-monogram {
+  border-color: rgba(96, 165, 250, 0.24);
+  background: linear-gradient(
+    150deg,
+    rgba(44, 103, 237, 0.26),
+    rgba(44, 103, 237, 0.06)
+  );
+}
+
+.timeline-logo-text {
+  color: #d7e6ff;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  line-height: 1;
 }
 
 .timeline-logo-icon {
@@ -457,16 +508,118 @@
   background: rgba(255, 255, 255, 0.35);
 }
 
-.experience-scroll {
-  max-height: none;
-  padding: 6px 0 0;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  scrollbar-width: none;
+.edu-map {
+  position: relative;
+  height: clamp(100px, 14vw, 112px);
+  margin: 14px 0 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  background: linear-gradient(
+    145deg,
+    rgba(37, 51, 83, 0.45),
+    rgba(8, 12, 24, 0.92)
+  );
+  overflow: hidden;
+  isolation: isolate;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
-.experience-scroll::-webkit-scrollbar {
-  display: none;
+.edu-map:hover {
+  border-color: rgba(96, 165, 250, 0.3);
+  box-shadow:
+    0 10px 30px rgba(2, 6, 23, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.edu-map-frame {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  filter: invert(0.93) hue-rotate(180deg) brightness(0.9) contrast(0.92)
+    saturate(0.75);
+  pointer-events: none;
+}
+
+.edu-map-link {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: block;
+  border-radius: 11px;
+  color: #e4e4e7;
+  text-decoration: none;
+}
+
+.edu-map-label,
+.edu-map-action {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  line-height: 1;
+  white-space: nowrap;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.edu-map-label {
+  top: 8px;
+  left: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(7, 11, 23, 0.7);
+  color: #e4e4e7;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition: border-color 0.25s ease;
+}
+
+.edu-map-label svg {
+  flex-shrink: 0;
+  color: #93c5fd;
+}
+
+.edu-map-action {
+  right: 8px;
+  bottom: 8px;
+  border: 1px solid rgba(96, 165, 250, 0.32);
+  background: rgba(30, 58, 138, 0.62);
+  color: #dbeafe;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  transition:
+    border-color 0.25s ease,
+    background-color 0.25s ease;
+}
+
+.edu-map-action svg {
+  flex-shrink: 0;
+}
+
+.edu-map-link:hover .edu-map-label {
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+.edu-map-link:hover .edu-map-action {
+  border-color: rgba(147, 197, 253, 0.55);
+  background: rgba(37, 99, 235, 0.78);
+}
+
+.edu-map-link:focus-visible {
+  outline: 2px solid rgba(96, 165, 250, 0.75);
+  outline-offset: -2px;
+}
+
+.edu-map-link:focus-visible .edu-map-action {
+  border-color: rgba(147, 197, 253, 0.7);
+  background: rgba(37, 99, 235, 0.85);
 }
 
 @media (hover: none) {
@@ -760,9 +913,19 @@
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 900px) {
   .about-lists {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(40px, 4vw, 60px);
+  }
+}
+
+@media (max-width: 899.98px) {
+  .experience-scroll {
+    max-height: none;
+    padding-right: 0;
+    overflow: visible;
+    overscroll-behavior: auto;
   }
 }
 
@@ -778,10 +941,6 @@
 
   .about-title {
     font-size: 60px;
-  }
-
-  .about-lists {
-    gap: 48px;
   }
 
   .photo-wrap {

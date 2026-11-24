@@ -104,6 +104,11 @@ export const education = [
     place: 'Vocational High School',
     tag: 'TKJ',
     logo: '/media/smk-alhadiid.png',
+    map: {
+      embed:
+        'https://maps.google.com/maps?q=-6.408156,106.963831&hl=id&z=16&output=embed',
+      link: 'https://www.google.com/maps/search/?api=1&query=SMK%20Alhadiid%201%20Cileungsi%2C%20Jl.%20Melati%20I%2C%20Perum%20Cileungsi%20Indah%2C%20Cileungsi%2C%20Bogor%2C%20Jawa%20Barat',
+    },
   },
   {
     id: 'smp',
@@ -113,6 +118,11 @@ export const education = [
     place: 'Junior High School',
     tag: 'SMP',
     logo: '/media/smp.png',
+    map: {
+      embed:
+        'https://maps.google.com/maps?q=-3.843618,104.934238&hl=id&z=16&output=embed',
+      link: 'https://www.google.com/maps/search/?api=1&query=SMP%20Islam%20Al-Manar%2C%20Jl.%20Raya%20Kepayang%2C%20Lempuing%2C%20Ogan%20Komering%20Ilir%2C%20Sumatera%20Selatan',
+    },
   },
   {
     id: 'sd',
@@ -122,6 +132,11 @@ export const education = [
     place: 'Elementary School',
     tag: 'SD',
     logo: '/media/sd.png',
+    map: {
+      embed:
+        'https://maps.google.com/maps?q=-3.895521,104.818315&hl=id&z=16&output=embed',
+      link: 'https://www.google.com/maps/search/?api=1&query=SDN%201%20Burnai%20Mulya%2C%20Burnai%20Mulya%2C%20Semendawai%20Timur%2C%20Ogan%20Komering%20Ulu%20Timur%2C%20Sumatera%20Selatan',
+    },
   },
 ]
 
@@ -133,6 +148,7 @@ export const experience = [
     role: 'Sales Admin (PKL)',
     place: 'Jatibening',
     tag: 'PKL',
+    logoText: 'MF',
     points: [
       'Melakukan penginputan dan pengelolaan data penjualan.',
       'Membantu proses administrasi dan pencatatan transaksi.',
@@ -146,6 +162,7 @@ export const experience = [
     role: 'Sales Admin (PKL)',
     place: 'Cilangkap',
     tag: 'PKL',
+    logoText: 'MF',
     points: [
       'Membantu kegiatan administrasi toko.',
       'Mendukung aktivitas penjualan dan pelayanan pelanggan.',
@@ -158,6 +175,7 @@ export const experience = [
     years: '2026',
     role: 'Supervisor',
     tag: 'Supervisor',
+    logoText: 'MT',
     points: [
       'Mengarahkan dan mengoordinasikan anggota tim.',
       'Mengatur jadwal kerja karyawan.',
@@ -170,6 +188,7 @@ export const experience = [
     years: '2024–2025',
     role: 'Sales Retail',
     tag: 'Retail',
+    logoText: 'MT',
     points: [
       'Melakukan penjualan produk kepada pelanggan.',
       'Memberikan informasi produk dan membantu kebutuhan pelanggan.',

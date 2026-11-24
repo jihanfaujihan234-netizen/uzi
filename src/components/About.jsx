@@ -1,12 +1,53 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Briefcase, Code, FileText, Images, School } from 'lucide-react'
+import {
+  Briefcase,
+  Code,
+  ExternalLink,
+  FileText,
+  Images,
+  MapPin,
+  School,
+} from 'lucide-react'
 import TopoCanvas from './TopoCanvas'
 import FolderCard from './FolderCard'
 import { education, experience, folders, profile } from '../data/site'
 import { useReveal } from '../hooks/useReveal'
 import { usePortfolio } from '../context/PortfolioContext'
 import { useSmoothScroll } from '../context/SmoothScrollContext'
+
+function SchoolMap({ item }) {
+  if (!item.map) return null
+
+  return (
+    <figure className="edu-map">
+      <iframe
+        className="edu-map-frame"
+        src={item.map.embed}
+        title={`Peta lokasi ${item.org}`}
+        loading="lazy"
+        referrerPolicy="no-referrer-when-downgrade"
+        tabIndex={-1}
+      />
+      <a
+        className="edu-map-link"
+        href={item.map.link}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`Buka lokasi ${item.org} di Google Maps (tab baru)`}
+      >
+        <span className="edu-map-label">
+          <MapPin size={12} aria-hidden="true" />
+          Lokasi Sekolah
+        </span>
+        <span className="edu-map-action">
+          Open in Google Maps
+          <ExternalLink size={11} aria-hidden="true" />
+        </span>
+      </a>
+    </figure>
+  )
+}
 
 function TimelineItem({ item, index, kind = 'education' }) {
   const FallbackIcon = kind === 'experience' ? Briefcase : School
@@ -16,9 +57,13 @@ function TimelineItem({ item, index, kind = 'education' }) {
       <span className="timeline-node">{index + 1}</span>
       <div className="timeline-content">
         <div className="timeline-top">
-          <span className="timeline-logo">
+          <span className={`timeline-logo${item.logoText ? ' has-monogram' : ''}`}>
             {item.logo ? (
               <img src={item.logo} alt="" loading="lazy" decoding="async" />
+            ) : item.logoText ? (
+              <span className="timeline-logo-text" aria-hidden="true">
+                {item.logoText}
+              </span>
             ) : (
               <FallbackIcon
                 className="timeline-logo-icon"
@@ -49,6 +94,7 @@ function TimelineItem({ item, index, kind = 'education' }) {
             ))}
           </ul>
         )}
+        <SchoolMap item={item} />
       </div>
     </li>
   )
@@ -223,7 +269,13 @@ export default function About() {
 
           <section className="timeline-column" data-reveal>
             <h4 className="timeline-heading">Experience</h4>
-            <div className="experience-scroll" data-lenis-prevent>
+            <div
+              className="experience-scroll"
+              data-lenis-prevent
+              tabIndex={0}
+              role="region"
+              aria-label="Daftar pengalaman kerja"
+            >
               <ol className="timeline-list">
                 {experience.map((item, index) => (
                   <TimelineItem
