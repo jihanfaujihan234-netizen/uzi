@@ -255,45 +255,46 @@
   list-style: none;
 }
 
-.experience-scroll {
+.timeline-scroll {
   position: relative;
-  max-height: clamp(380px, 56vh, 540px);
+  height: clamp(380px, 56vh, 540px);
   padding-right: 12px;
   overflow-x: hidden;
   overflow-y: auto;
   overscroll-behavior: contain;
   scrollbar-width: thin;
   scrollbar-color: rgba(100, 140, 200, 0.5) transparent;
+  scrollbar-gutter: stable;
   -webkit-overflow-scrolling: touch;
 }
 
-.experience-scroll:focus-visible {
+.timeline-scroll:focus-visible {
   border-radius: 10px;
   outline: 2px solid rgba(96, 165, 250, 0.55);
   outline-offset: -2px;
 }
 
-.experience-scroll::-webkit-scrollbar {
+.timeline-scroll::-webkit-scrollbar {
   width: 5px;
 }
 
-.experience-scroll::-webkit-scrollbar-track {
+.timeline-scroll::-webkit-scrollbar-track {
   background: transparent;
 }
 
-.experience-scroll::-webkit-scrollbar-thumb {
+.timeline-scroll::-webkit-scrollbar-thumb {
   border-radius: 10px;
   background: rgba(100, 140, 200, 0.5);
 }
 
-.experience-scroll::-webkit-scrollbar-thumb:hover {
+.timeline-scroll::-webkit-scrollbar-thumb:hover {
   background: rgba(100, 140, 200, 0.72);
 }
 
 .timeline-item {
   position: relative;
   margin: 0;
-  padding: 0 0 24px 56px;
+  padding: 0 0 18px 56px;
   opacity: 0.45;
   transition: opacity 0.3s ease;
 }
@@ -483,8 +484,8 @@
 
 .timeline-points {
   display: grid;
-  gap: 6px;
-  margin: 10px 0 0;
+  gap: 4px;
+  margin: 8px 0 0;
   padding: 0;
   color: #a1a1aa;
   font-size: 13px;
@@ -510,10 +511,11 @@
 
 .edu-map {
   position: relative;
-  height: clamp(100px, 14vw, 112px);
-  margin: 14px 0 0;
+  width: min(100%, 232px);
+  height: 84px;
+  margin: 12px 0 0;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
+  border-radius: 10px;
   background: linear-gradient(
     145deg,
     rgba(37, 51, 83, 0.45),
@@ -549,7 +551,7 @@
   inset: 0;
   z-index: 2;
   display: block;
-  border-radius: 11px;
+  border-radius: 9px;
   color: #e4e4e7;
   text-decoration: none;
 }
@@ -559,8 +561,8 @@
   position: absolute;
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  padding: 4px 8px;
+  gap: 4px;
+  padding: 3px 7px;
   border-radius: 999px;
   line-height: 1;
   white-space: nowrap;
@@ -569,12 +571,12 @@
 }
 
 .edu-map-label {
-  top: 8px;
-  left: 8px;
+  top: 6px;
+  left: 6px;
   border: 1px solid rgba(255, 255, 255, 0.14);
   background: rgba(7, 11, 23, 0.7);
   color: #e4e4e7;
-  font-size: 10.5px;
+  font-size: 9.5px;
   font-weight: 600;
   letter-spacing: 0.02em;
   transition: border-color 0.25s ease;
@@ -586,12 +588,12 @@
 }
 
 .edu-map-action {
-  right: 8px;
-  bottom: 8px;
+  right: 6px;
+  bottom: 6px;
   border: 1px solid rgba(96, 165, 250, 0.32);
   background: rgba(30, 58, 138, 0.62);
   color: #dbeafe;
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 600;
   letter-spacing: 0.01em;
   transition:
@@ -905,7 +907,7 @@
   }
 
   .timeline-item {
-    padding-bottom: 28px;
+    padding-bottom: 22px;
   }
 
   .photo-wrap {
@@ -913,19 +915,21 @@
   }
 }
 
-@media (min-width: 900px) {
+@media (min-width: 768px) {
   .about-lists {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: clamp(40px, 4vw, 60px);
+    gap: clamp(28px, 3.2vw, 60px);
   }
 }
 
-@media (max-width: 899.98px) {
-  .experience-scroll {
+@media (max-width: 767.98px) {
+  .timeline-scroll {
+    height: auto;
     max-height: none;
     padding-right: 0;
     overflow: visible;
     overscroll-behavior: auto;
+    scrollbar-gutter: auto;
   }
 }
 

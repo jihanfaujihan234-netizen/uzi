@@ -49,6 +49,20 @@ function SchoolMap({ item }) {
   )
 }
 
+function TimelineScroll({ label, children }) {
+  return (
+    <div
+      className="timeline-scroll"
+      data-lenis-prevent
+      tabIndex={0}
+      role="region"
+      aria-label={label}
+    >
+      {children}
+    </div>
+  )
+}
+
 function TimelineItem({ item, index, kind = 'education' }) {
   const FallbackIcon = kind === 'experience' ? Briefcase : School
 
@@ -260,22 +274,18 @@ export default function About() {
         <div className="about-lists">
           <section className="timeline-column" data-reveal>
             <h4 className="timeline-heading">Education</h4>
-            <ol className="timeline-list">
-              {education.map((item, index) => (
-                <TimelineItem item={item} index={index} key={item.id} />
-              ))}
-            </ol>
+            <TimelineScroll label="Daftar riwayat pendidikan">
+              <ol className="timeline-list">
+                {education.map((item, index) => (
+                  <TimelineItem item={item} index={index} key={item.id} />
+                ))}
+              </ol>
+            </TimelineScroll>
           </section>
 
           <section className="timeline-column" data-reveal>
             <h4 className="timeline-heading">Experience</h4>
-            <div
-              className="experience-scroll"
-              data-lenis-prevent
-              tabIndex={0}
-              role="region"
-              aria-label="Daftar pengalaman kerja"
-            >
+            <TimelineScroll label="Daftar pengalaman kerja">
               <ol className="timeline-list">
                 {experience.map((item, index) => (
                   <TimelineItem
@@ -286,7 +296,7 @@ export default function About() {
                   />
                 ))}
               </ol>
-            </div>
+            </TimelineScroll>
           </section>
         </div>
 
